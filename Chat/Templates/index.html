@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset = "UTF-8">
     <title>My Chat App</title>
 </head>
-<body>
-    <h1>My Chat app</h1>
+<body class="bg-light">
+  <div class="container" style="width: 50%;">
+    <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-primary text-center mb-3">My Chat app</h1>
     <form action="/chat">
-        <div>
-            <label>Enter your username:</label>
-            <input type="text" name="username">
+        <div class="form-row">
+          <div class="col-md-6 form-group">
+            <label class="form-label font-weight-bold">Enter your username:</label>
+            <input type="text" class="form-control" name="username">
+          </div>
+          </div>
+          <div class="form-row">
+        <div class="col-md-6 form-group">
+            <label class="form-label font-weight-bold">Enter room id:</label>
+            <input type="text" class="form-control" name="room">
         </div>
-        <div>
-            <label>Enter room id:</label>
-            <input type="text" name="room">
-        </div>
-        <button type="submit">submit </button>
+      </div>
+        <button class="btn btn-outline-success font-weight-bold" type="submit">Join Room </button>
     </form>
+  </div>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
