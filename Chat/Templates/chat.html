@@ -145,7 +145,7 @@ img{ max-width:100%;}
     <title>My Chat App</title>
 </head>
 <body>
-<div class="container" id="messages">
+<div class="container">
 <h3 class=" text-center text-primary" style="font-size: 20px;">You are in chat room {{room}}</h3>
 <form id="message_input_form">
 <div class="messaging">
@@ -153,22 +153,19 @@ img{ max-width:100%;}
 
         <div class="mesgs">
           <div class="msg_history">
-            <div class="incoming_msg">
+            <div class="incoming_msg" >
               <div class="incoming_msg_img"><i class="fas fa-comment fa-2x text-primary"></i></div>
               <div class="received_msg">
                 <div class="received_withd_msg">
 
-                  <p>Test which is a new approach to have all
-                    solutions</p>
-                  <span class="time_date"> 11:01 AM    |    June 9</span>
+                  <p id="messages"></p>
                 </div>
               </div>
             </div>
             <div class="outgoing_msg">
               <div class="sent_msg">
-                <p>Test which is a new approach to have all
-                  solutions</p>
-                <span class="time_date"> 11:01 AM    |    June 9</span> </div>
+                <p id="messages"></p>
+              </div>
                 <div class="incoming_msg_img">
                   <i class="fas fa-comment fa-2x text-secondary fa-flip-horizontal"></i>
                 </div>
@@ -181,21 +178,8 @@ img{ max-width:100%;}
                   <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
               </div>
             </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Apollo University, Delhi, India Test</p>
-                <span class="time_date"> 11:01 AM    |    Today</span> </div>
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>We work directly with our designers and suppliers,
-                    and sell direct to you, which means quality, exclusive
-                    products, at a price anyone can afford.</p>
-                  <span class="time_date"> 11:01 AM    |    Today</span></div>
-              </div>
-            </div>
+            
+
           </div>
           <div class="type_msg">
             <div class="input_msg_write">
@@ -252,10 +236,20 @@ img{ max-width:100%;}
     };
 
     socket.on('receive_message', function (data) {
-        console.log(data);
-        const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
-        document.getElementById('messages').appendChild(newNode);
+      if (data.username !== "{{username}}")
+    {
+    console.log(data);
+    const newNode = document.createElement('div');
+    newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+    document.getElementById('send_msg').appendChild(newNode);
+    }
+    else
+    {
+    console.log(data);
+    const newNode = document.createElement('div');
+    newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+    document.getElementById('messages').appendChild(newNode);
+    }
     });
 
     socket.on('join_room_announcement', function (data) {
