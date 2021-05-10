@@ -9,7 +9,7 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("home.html")
 
 @app.route('/chat')
 def chat():
@@ -23,9 +23,7 @@ def chat():
 
 @socketio.on('send_message')
 def handle_send_message_event(data):
-    app.logger.info("{} has sent message to the room {}: {}".format(data['username'],
-                                                                    data['room'],
-                                                                    data['message']))
+    app.logger.info("{} has sent message to the room {}: {}".format(data['username'], data['room'], data['message']))
     socketio.emit('receive_message', data, room=data['room'])
 
 @socketio.on('join_room')
