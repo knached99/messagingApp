@@ -187,6 +187,7 @@ img{ max-width:100%;}
             <div class="input_msg_write">
               <input type="text" class="write_msg" placeholder="Type a message" id="message_input" />
               <button class="btn btn-outline-primary" type="submit"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
+              <a class="btn btn-danger" href="home.html">Leave the chat</a>
             </div>
           </div>
         </div>
@@ -258,7 +259,7 @@ img{ max-width:100%;}
         console.log(data);
         if (data.username !== "{{ username }}") {
             const newNode = document.createElement('div');
-            newNode.innerHTML = `<b>${data.username}</b> has joined the room`;
+            newNode.innerHTML = `<b class="text-success">${data.username}</b> has joined the chat`;
             document.getElementById('announce_person').appendChild(newNode);
         }
     });
@@ -266,7 +267,7 @@ img{ max-width:100%;}
     socket.on('leave_room_announcement', function (data) {
         console.log(data);
         const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}</b> has left the room`;
+        newNode.innerHTML = `<b class=text-danger>${data.username}</b> has left the chat`;
         document.getElementById('messages').appendChild(newNode);
     });
 </script>
