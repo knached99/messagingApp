@@ -1,5 +1,5 @@
 # messagingApp
-Insrant messaging web application 
+Instant messaging web application 
 using Flask (Python web development framework), and 
 Socket.io for realtime socket package transfers 
 a
