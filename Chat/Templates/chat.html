@@ -1,207 +1,126 @@
 <!DOCTYPE html>
-<!-- @author: Edgar & Khaled -->
 <html lang="en">
 <head>
   <style>
-  .container{max-width:1170px; margin:auto;}
-img{ max-width:100%;}
-.inbox_people {
-  background: #f8f8f8 none repeat scroll 0 0;
-  float: left;
-  overflow: hidden;
-  width: 40%; border-right:1px solid #c4c4c4;
-}
-.inbox_msg {
-  border: 1px solid #c4c4c4;
-  clear: both;
-  overflow: hidden;
-}
-.top_spac{ margin: 20px 0 0;}
-.recent_heading {float: left; width:40%;}
-.srch_bar {
-  display: inline-block;
-  text-align: right;
-  width: 60%;
-}
-.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+    body {
+      background-image: url('https://wallpapers.com/images/hd/minimalist-cia-logo-vv07i3od3bujbtru.jpg');
+      background-size: cover;
+    }
 
-.recent_heading h4 {
-  color: #05728f;
-  font-size: 21px;
-  margin: auto;
-}
-.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
-.srch_bar .input-group-addon button {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
-  padding: 0;
-  color: #707070;
-  font-size: 18px;
-}
-.srch_bar .input-group-addon { margin: 0 0 0 -27px;}
+    .container {
+      max-width: 1170px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
-.chat_ib h5 span{ font-size:13px; float:right;}
-.chat_ib p{ font-size:14px; color:#989898; margin:auto}
-.chat_img {
-  float: left;
-  width: 11%;
-}
-.chat_ib {
-  float: left;
-  padding: 0 0 0 15px;
-  width: 88%;
-}
+    .chat-box {
+      background-color: #00000080; /* 50% opacity */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
 
-.chat_people{ overflow:hidden; clear:both;}
-.chat_list {
-  border-bottom: 1px solid #c4c4c4;
-  margin: 0;
-  padding: 18px 16px 10px;
-}
-.inbox_chat { height: 550px; overflow-y: scroll;}
+    .msg_history {
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 10px;
+      margin-bottom: 10px;
+    }
 
-.active_chat{ background:#ebebeb;}
+    .message {
+      margin-bottom: 15px;
+      clear: both;
+    }
 
-.incoming_msg_img {
-  display: inline-block;
-  width: 6%;
-}
-.received_msg {
-  display: inline-block;
-  padding: 0 0 0 10px;
-  vertical-align: top;
-  width: 92%;
- }
- .received_withd_msg p {
-  background: #ebebeb none repeat scroll 0 0;
-  border-radius: 3px;
-  color: #646464;
-  font-size: 14px;
-  margin: 0;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
-}
-.time_date {
-  color: #747474;
-  display: block;
-  font-size: 12px;
-  margin: 8px 0 0;
-}
-.received_withd_msg { width: 57%;}
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  width: 60%;
-}
+    .message.sent {
+      text-align: right;
+    }
 
- .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
-  border-radius: 3px;
-  font-size: 14px;
-  margin: 0; color:#fff;
-  padding: 5px 10px 5px 12px;
-  width:100%;
-}
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
-.sent_msg {
-  float: right;
-  width: 46%;
-}
-.input_msg_write input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
-  color: #4c4c4c;
-  font-size: 15px;
-  min-height: 48px;
-  width: 100%;
-}
+    .message.received {
+      text-align: left;
+    }
 
-.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
-.msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  right: 0;
-  top: 11px;
-  width: 33px;
-}
-.messaging { padding: 0 0 50px 0;}
-.msg_history {
-  height: 516px;
-  overflow-y: auto;
-}
+    .message p {
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+      line-height: 1.5;
+    }
+
+    .message.sent p {
+      background-color: #05728f;
+      color: #fff;
+    }
+
+    .message.received p {
+      background-color: #ebebeb;
+      color: #464646;
+    }
+
+    .input_msg_write {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #c4c4c4;
+      padding-top: 10px;
+    }
+
+    .write_msg {
+      flex: 1;
+      border: none;
+      border-radius: 20px;
+      padding: 10px;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .msg_send_btn {
+      background-color: #05728f;
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .announcement {
+      font-style: italic;
+      margin-top: 10px;
+      text-align: center;
+    }
   </style>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-
-    <meta charset="UTF-8">
-    <title>My Chat App</title>
+  <meta charset="UTF-8">
+  <title>My Chat App</title>
 </head>
-<body style="background-image: url('https://wallpapercave.com/wp/wp3595712.jpg')">
-<div class="container bg-white" >
-<h3 class=" text-center text-primary" style="font-size: 20px;">You are in chat room {{room}}</h3>
-<form id="message_input_form">
-<div class="messaging">
-      <div class="inbox_msg" >
-
-        <div class="mesgs">
-          <div class="msg_history">
-            <div class="incoming_msg" >
-              <div class="incoming_msg_img"><i class="fas fa-comment fa-2x text-primary"></i></div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-
-                  <p id="messages"></p>
-                </div>
-              </div>
-            </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p id="messages"></p>
-              </div>
-              
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"><i class="fas fa-comment fa-2x text-secondary fa-flip-horizontal"></i>
-              </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p id="send_msg"></p>
-              </div>
-            </div>
-            
-
-          </div>
-          <div id="announce_person">
-            <i class="fa fa-user fa-lg text-secondary"></i>
-          </div>
-          <div class="type_msg">
-            <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Type a message" id="message_input" />
-              <button class="btn btn-outline-primary" type="submit"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
-              <a class="btn btn-danger" href="home.html">Leave the chat</a>
-            </div>
-          </div>
-        </div>
+<body>
+<div class="container">
+  <h3 class="text-center text-primary" style="font-size: 20px;">You are in chat room {{room}}</h3>
+  <div class="chat-box">
+    <div class="msg_history" id="messages"></div>
+    <form id="message_input_form">
+      <div class="input_msg_write">
+        <input type="text" class="write_msg" placeholder="Type a message" id="message_input" />
+        <button class="msg_send_btn" type="submit"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
+        <a class="btn btn-danger" href="/">Leave the chat</a>
       </div>
-
-    </div>
-  </form>
+    </form>
   </div>
-    </body>
+</div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 <script>
     const socket = io.connect("http://127.0.0.1:5000");
 
@@ -221,7 +140,7 @@ img{ max-width:100%;}
                     username: "{{ username }}",
                     room: "{{ room }}",
                     message: message
-                })
+                });
             }
             message_input.value = '';
             message_input.focus();
@@ -232,41 +151,37 @@ img{ max-width:100%;}
         socket.emit('leave_room', {
             username: "{{ username }}",
             room: "{{ room }}"
-        })
+        });
     };
 
     socket.on('receive_message', function (data) {
-      if (data.username !== "{{username}}")
-      {
-        console.log(data);
+        const messageContainer = document.getElementById('messages');
         const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
-        document.getElementById('send_msg').appendChild(newNode);
-      }
-      else
-      {
-        console.log(data);
-        const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
-        document.getElementById('messages').appendChild(newNode);
-      }
-      });
+        newNode.classList.add('message', data.username === "{{ username }}" ? 'sent' : 'received');
+        newNode.innerHTML = `<p><b>${data.username}:</b> ${data.message}</p>`;
+        messageContainer.appendChild(newNode);
+        messageContainer.scrollTop = messageContainer.scrollHeight; // Auto-scroll to latest message
+    });
 
     socket.on('join_room_announcement', function (data) {
-        console.log(data);
         if (data.username !== "{{ username }}") {
+            const announcementContainer = document.getElementById('messages');
             const newNode = document.createElement('div');
-            newNode.innerHTML = `<b class="text-success">${data.username}</b> has joined the chat`;
-            document.getElementById('announce_person').appendChild(newNode);
+            newNode.classList.add('announcement');
+            newNode.innerHTML = `<b class="text-success">${data.username}</b> <span class="text-white">has joined the chat</span>`;
+            announcementContainer.appendChild(newNode);
+            announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
         }
     });
 
     socket.on('leave_room_announcement', function (data) {
-        console.log(data);
+        const announcementContainer = document.getElementById('messages');
         const newNode = document.createElement('div');
-        newNode.innerHTML = `<b class=text-danger>${data.username}</b> has left the chat`;
-        document.getElementById('announce_person').appendChild(newNode);
+        newNode.classList.add('announcement');
+        newNode.innerHTML = `<b class="text-danger">${data.username}</b> <span class="text-white">has left the chat</span>`;
+        announcementContainer.appendChild(newNode);
+        announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
     });
 </script>
-<!-- @author: Felix   end -->
+</body>
 </html>
