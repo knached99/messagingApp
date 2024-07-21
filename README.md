@@ -2,13 +2,40 @@
 
 **Instant Messaging Web Application**
 
-This is an instant messaging web application built with Flask, a Python web development framework, and Socket.io for real-time socket communication. The primary goal is to enhance security by minimizing the risk of packet capture using tools like WireShark.
+This is an instant chat application which utilizes Flask and Flask-SocketIO for real-time communication, and the `cryptography` library for implementing end-to-end encryption (E2EE) to ensure message confidentiality. Below is a detailed explanation of the encryption algorithm used.
 
 ## Features
 
 - **Real-Time Messaging:** Exchange messages instantly with other users in the same chat room.
 - **Encryption:** Messages are encrypted to ensure privacy.
 - **Session Management:** Join or leave chat rooms and view announcements for these actions.
+
+
+## Encryption Algorithm
+
+### Advanced Encryption Standard (AES)
+
+The encryption algorithm used in this application is the Advanced Encryption Standard (AES), specifically AES-256 in Cipher Block Chaining (CBC) mode with PKCS7 padding. 
+
+### Key Points of AES-256
+
+1. **Key Size**: AES-256 uses a 256-bit key, making it highly secure against brute-force attacks.
+2. **Block Size**: AES operates on fixed block sizes of 128 bits.
+3. **Mode of Operation**: Cipher Block Chaining (CBC) mode is used to enhance the security of AES by ensuring that identical plaintext blocks yield different ciphertext blocks.
+
+
+### Steps of the Encryption Process
+
+1. **Key Generation**: A 256-bit key is generated using a secure random number generator.
+2. **Initialization Vector (IV)**: A 128-bit IV is generated to ensure that the same plaintext encrypts to different ciphertext in different encryption sessions.
+3. **Padding**: PKCS7 padding is applied to the plaintext to ensure it is a multiple of the block size.
+4. **Encryption**: The plaintext is encrypted using AES-256 with the generated key and IV in CBC mode.
+
+### Steps of the Decryption Process
+
+1. **Decryption**: The ciphertext is decrypted using the same key and IV used during encryption.
+2. **Unpadding**: PKCS7 padding is removed to retrieve the original plaintext.
+
 
 ## Getting Started
 
