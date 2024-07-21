@@ -8,7 +8,7 @@ import os
 
 # Initialize Flask app and SocketIO
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", manage_session=False)
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:5000", manage_session=False)
 
 # Generate a key for encryption
 encryption_key = os.urandom(32)  # AES-256 key
