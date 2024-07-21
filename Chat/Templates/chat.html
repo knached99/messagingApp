@@ -115,7 +115,7 @@
       <div class="input_msg_write">
         <input type="text" class="write_msg" placeholder="Type a message" id="message_input" />
         <button class="msg_send_btn" type="submit"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
-        <a class="btn btn-danger" href="/">Leave the chat</a>
+        <button class="btn btn-danger" onclick="leaveRoomPrompt()">Leave the chat</button>
       </div>
       <button id="download_pdf" class="btn btn-outline-dark mt-4">Download Chat History as PDF</button>
 
@@ -205,6 +205,15 @@
         announcementContainer.appendChild(newNode);
         announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
     });
+
+    function leaveRoomPrompt(){
+      if(confirm('Are you sure you want to leave this chat? Once you do, all your messages will be lost. You can save the chat history by downloading the chat transcript.')){
+        window.location.href="/" ; 
+      }
+      else{
+        // Stay in the chat session 
+      }
+    }
 </script>
 
 <script>
