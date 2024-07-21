@@ -2,7 +2,7 @@
 
 **Instant Messaging Web Application**
 
-This is an instant chat application which utilizes Flask and Flask-SocketIO for real-time communication, and the `cryptography` library for implementing end-to-end encryption (E2EE) to ensure message confidentiality. Below is a detailed explanation of the encryption algorithm used.
+This is an instant chat application which utilizes Flask and Flask-SocketIO for real-time communication, and the `cryptography` library for implementing encryption to ensure message confidentiality. Below is a detailed explanation of the encryption algorithm used.
 
 ## Features
 
