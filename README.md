@@ -41,6 +41,16 @@ The encryption algorithm used in this application is the Advanced Encryption Sta
 
 Follow these steps to set up and run the application locally:
 
+### Requirements
+
+- Python 3.8 or higher
+- Node.js 14 or higher
+- Flask 3.0.3
+- Flask-SocketIO 5.3.2
+- python-socketio 5.7.2
+- python-engineio 4.6.0
+- cryptography 42.0.8
+
 ### 1. Clone the Repository
 
 ```bash
@@ -69,7 +79,12 @@ source venv/bin/activate
 ```
 
 ### 4. Install Dependencies
-Navigate to the chat directory and install the required Python packages:
+
+First, install the JavaScript dependencies by running 
+```bash 
+npm install 
+```
+After that, navigate to the chat directory and install the required Python packages:
 
 ```bash
 cd chat
