@@ -117,6 +117,8 @@
         <button class="msg_send_btn" type="submit"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
         <a class="btn btn-danger" href="/">Leave the chat</a>
       </div>
+      <button id="download_pdf" class="btn btn-outline-dark mt-4">Download Chat History as PDF</button>
+
     </form>
   </div>
 </div>
@@ -125,6 +127,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
     const socket = io.connect("http://127.0.0.1:5000");
 
@@ -201,6 +205,40 @@
         announcementContainer.appendChild(newNode);
         announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
     });
+</script>
+
+<script>
+  document.getElementById('download_pdf').addEventListener('click', function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const messageContainer = document.getElementById('messages');
+      let yOffset = 10;
+
+      messageContainer.querySelectorAll('.message').forEach(function (msg) {
+          const user = msg.querySelector('b').innerText.replace(':', '');
+          const text = msg.querySelector('p').innerText.replace(`${user}:`, '').trim();
+          doc.text(`${user}: ${text}`, 10, yOffset);
+          yOffset += 10;
+
+          if (yOffset > 280) { // New page if content is too long
+              doc.addPage();
+              yOffset = 10;
+          }
+      });
+
+   // Get current date and time
+   const now = new Date();
+            const date = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+            const time = now.toTimeString().split(' ')[0]; // HH:MM:SS format
+            const formattedDate = date.replace(/-/g, '/'); // Format: MM/DD/YYYY
+            const formattedTime = time.substring(0, 5); // Format: HH:MM
+
+            // Create filename with date and time
+            const filename = `chat_history_${formattedDate}_${formattedTime}.pdf`;
+
+            // Save the PDF with the filename
+            doc.save(filename);  });
 </script>
 
 
