@@ -3,8 +3,10 @@
 <head>
   <style>
     body {
-      background-image: url('https://wallpapers.com/images/hd/minimalist-cia-logo-vv07i3od3bujbtru.jpg');
-      background-size: cover;
+      /* background-image: url('https://wallpapers.com/images/hd/minimalist-cia-logo-vv07i3od3bujbtru.jpg');
+      background-size: cover; */
+      background-color: #fff;
+      
     }
 
     .container {
@@ -14,7 +16,8 @@
     }
 
     .chat-box {
-      background-color: #00000080; /* 50% opacity */
+      /* background-color: #00000080; 50% opacity */
+      background-color: #fdfdfd;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -52,12 +55,12 @@
     }
 
     .message.sent p {
-      background-color: #05728f;
+      background-color: #218aff;
       color: #fff;
     }
 
     .message.received p {
-      background-color: #ebebeb;
+      background-color: #d8d8d8;
       color: #464646;
     }
 
@@ -78,7 +81,7 @@
     }
 
     .msg_send_btn {
-      background-color: #05728f;
+      background-color: #218aff;
       border: none;
       color: #fff;
       border-radius: 50%;
@@ -121,8 +124,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
     const socket = io.connect("http://127.0.0.1:5000");
+
+    const encryptionKey = CryptoJS.enc.Base64.parse("{{ encryption_key }}");
+    const iv = CryptoJS.enc.Base64.parse("{{ iv }}");
+
+    function encryptMessage(message) {
+        const encrypted = CryptoJS.AES.encrypt(message, encryptionKey, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return encrypted.toString();
+    }
 
     socket.on('connect', function () {
         socket.emit('join_room', {
@@ -136,10 +152,12 @@
             e.preventDefault();
             let message = message_input.value.trim();
             if (message.length) {
+                let encryptedMessage = encryptMessage(message);
+                console.log("Encrypted Message:", encryptedMessage);  // Debugging
                 socket.emit('send_message', {
                     username: "{{ username }}",
                     room: "{{ room }}",
-                    message: message
+                    message: encryptedMessage
                 });
             }
             message_input.value = '';
@@ -158,6 +176,7 @@
         const messageContainer = document.getElementById('messages');
         const newNode = document.createElement('div');
         newNode.classList.add('message', data.username === "{{ username }}" ? 'sent' : 'received');
+        console.log("Decrypted Message:", data.message);  // Debugging
         newNode.innerHTML = `<p><b>${data.username}:</b> ${data.message}</p>`;
         messageContainer.appendChild(newNode);
         messageContainer.scrollTop = messageContainer.scrollHeight; // Auto-scroll to latest message
@@ -168,7 +187,7 @@
             const announcementContainer = document.getElementById('messages');
             const newNode = document.createElement('div');
             newNode.classList.add('announcement');
-            newNode.innerHTML = `<b class="text-success">${data.username}</b> <span class="text-white">has joined the chat</span>`;
+            newNode.innerHTML = `<b class="text-success">${data.username}</b> <span class="text-dark">has joined the chat. This user cannot see any previous messages you have typed in this chat.</span>`;
             announcementContainer.appendChild(newNode);
             announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
         }
@@ -178,10 +197,12 @@
         const announcementContainer = document.getElementById('messages');
         const newNode = document.createElement('div');
         newNode.classList.add('announcement');
-        newNode.innerHTML = `<b class="text-danger">${data.username}</b> <span class="text-white">has left the chat</span>`;
+        newNode.innerHTML = `<b class="text-danger">${data.username}</b> <span class="text-dark">has left the chat</span>`;
         announcementContainer.appendChild(newNode);
         announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
     });
 </script>
+
+
 </body>
 </html>

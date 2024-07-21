@@ -17,7 +17,7 @@ Follow these steps to set up and run the application locally:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/messagingApp.git
+git clone https://github.com/knached99/messagingApp.git
 ```
 
 ### 2. Navigate to the Project Directory
