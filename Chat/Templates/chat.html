@@ -131,91 +131,91 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-    const socket = io.connect("http://127.0.0.1:5000");
+  const socket = io.connect("http://127.0.0.1:5000");
 
-    const encryptionKey = CryptoJS.enc.Base64.parse("{{ encryption_key }}");
-    const iv = CryptoJS.enc.Base64.parse("{{ iv }}");
+  const encryptionKey = CryptoJS.enc.Base64.parse("{{ encryption_key }}");
+  const iv = CryptoJS.enc.Base64.parse("{{ iv }}");
 
-    function encryptMessage(message) {
-        const encrypted = CryptoJS.AES.encrypt(message, encryptionKey, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        });
-        return encrypted.toString();
-    }
+  function encryptMessage(message) {
+      const encrypted = CryptoJS.AES.encrypt(message, encryptionKey, {
+          iv: iv,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+      });
+      return encrypted.toString();
+  }
 
-    socket.on('connect', function () {
-        socket.emit('join_room', {
-            username: "{{ username }}",
-            room: "{{ room }}"
-        });
+  socket.on('connect', function () {
+      socket.emit('join_room', {
+          username: "{{ username }}",
+          room: "{{ room }}"
+      });
 
-        let message_input = document.getElementById('message_input');
+      let message_input = document.getElementById('message_input');
 
-        document.getElementById('message_input_form').onsubmit = function (e) {
-            e.preventDefault();
-            let message = message_input.value.trim();
-            if (message.length) {
-                let encryptedMessage = encryptMessage(message);
-                console.log("Encrypted Message:", encryptedMessage);  // Debugging
-                socket.emit('send_message', {
-                    username: "{{ username }}",
-                    room: "{{ room }}",
-                    message: encryptedMessage
-                });
-            }
-            message_input.value = '';
-            message_input.focus();
-        }
-    });
-
-    window.onbeforeunload = function () {
-        socket.emit('leave_room', {
-            username: "{{ username }}",
-            room: "{{ room }}"
-        });
-    };
-
-    socket.on('receive_message', function (data) {
-        const messageContainer = document.getElementById('messages');
-        const newNode = document.createElement('div');
-        newNode.classList.add('message', data.username === "{{ username }}" ? 'sent' : 'received');
-        console.log("Decrypted Message:", data.message);  // Debugging
-        newNode.innerHTML = `<p><b>${data.username}:</b> ${data.message}</p>`;
-        messageContainer.appendChild(newNode);
-        messageContainer.scrollTop = messageContainer.scrollHeight; // Auto-scroll to latest message
-    });
-
-    socket.on('join_room_announcement', function (data) {
-        if (data.username !== "{{ username }}") {
-            const announcementContainer = document.getElementById('messages');
-            const newNode = document.createElement('div');
-            newNode.classList.add('announcement');
-            newNode.innerHTML = `<b class="text-success">${data.username}</b> <span class="text-dark">has joined the chat. This user cannot see any previous messages you have typed in this chat.</span>`;
-            announcementContainer.appendChild(newNode);
-            announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
-        }
-    });
-
-    socket.on('leave_room_announcement', function (data) {
-        const announcementContainer = document.getElementById('messages');
-        const newNode = document.createElement('div');
-        newNode.classList.add('announcement');
-        newNode.innerHTML = `<b class="text-danger">${data.username}</b> <span class="text-dark">has left the chat</span>`;
-        announcementContainer.appendChild(newNode);
-        announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
-    });
-
-    function leaveRoomPrompt(){
-      if(confirm('Are you sure you want to leave this chat? Once you do, all your messages will be lost. You can save the chat history by downloading the chat transcript.')){
-        window.location.href="/" ;
+      document.getElementById('message_input_form').onsubmit = function (e) {
+          e.preventDefault();
+          let message = message_input.value.trim();
+          if (message.length) {
+              let encryptedMessage = encryptMessage(message);
+              socket.emit('send_message', {
+                  username: "{{ username }}",
+                  room: "{{ room }}",
+                  message: encryptedMessage,
+                  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+              });
+          }
+          message_input.value = '';
+          message_input.focus();
       }
-      else{
-        // Stay in the chat session
+  });
+
+  window.onbeforeunload = function () {
+      socket.emit('leave_room', {
+          username: "{{ username }}",
+          room: "{{ room }}"
+      });
+  };
+
+  socket.on('receive_message', function (data) {
+      const messageContainer = document.getElementById('messages');
+      const newNode = document.createElement('div');
+      newNode.classList.add('message', data.username === "{{ username }}" ? 'sent' : 'received');
+      newNode.innerHTML = `<p><b>${data.username}:</b> ${data.message}<br><span class="timestamp">${data.timestamp}</span></p>`;
+      messageContainer.appendChild(newNode);
+      messageContainer.scrollTop = messageContainer.scrollHeight; // Auto-scroll to latest message
+  });
+
+  socket.on('join_room_announcement', function (data) {
+      if (data.username !== "{{ username }}") {
+          const announcementContainer = document.getElementById('messages');
+          const newNode = document.createElement('div');
+          newNode.classList.add('announcement');
+          newNode.innerHTML = `<b class="text-success">${data.username}</b> <span class="text-dark">has joined the chat. This user cannot see any previous messages you have typed in this chat.</span>`;
+          announcementContainer.appendChild(newNode);
+          announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
       }
+  });
+
+  socket.on('leave_room_announcement', function (data) {
+      const announcementContainer = document.getElementById('messages');
+      const newNode = document.createElement('div');
+      newNode.classList.add('announcement');
+      newNode.innerHTML = `<b class="text-danger">${data.username}</b> <span class="text-dark">has left the chat</span>`;
+      announcementContainer.appendChild(newNode);
+      announcementContainer.scrollTop = announcementContainer.scrollHeight; // Auto-scroll to latest announcement
+  });
+
+  function leaveRoomPrompt(){
+    if(confirm('Are you sure you want to leave this chat? Once you do, all your messages will be lost. You can save the chat history by downloading the chat transcript.')){
+      window.location.href="/" ;
     }
+    else{
+      // Stay in the chat session
+    }
+  }
 </script>
+
 
 <script>
   document.getElementById('download_pdf').addEventListener('click', function () {
@@ -223,13 +223,15 @@
       const doc = new jsPDF();
 
       const messageContainer = document.getElementById('messages');
-      let yOffset = 10;
+      let yOffset = 20;
 
       messageContainer.querySelectorAll('.message').forEach(function (msg) {
           const user = msg.querySelector('b').innerText.replace(':', '');
           const text = msg.querySelector('p').innerText.replace(`${user}:`, '').trim();
-          doc.text(`${user}: ${text}`, 10, yOffset);
-          yOffset += 10;
+          const timestamp = msg.querySelector('.timestamp').innerText;
+
+          doc.text(`${user}: ${text} (${timestamp})`, 10, yOffset);
+          yOffset += 20; // Adjust this value for better spacing
 
           if (yOffset > 280) { // New page if content is too long
               doc.addPage();
@@ -237,19 +239,20 @@
           }
       });
 
-   // Get current date and time
-   const now = new Date();
-            const date = now.toISOString().split('T')[0]; // YYYY-MM-DD format
-            const time = now.toTimeString().split(' ')[0]; // HH:MM:SS format
-            const formattedDate = date.replace(/-/g, '/'); // Format: MM/DD/YYYY
-            const formattedTime = time.substring(0, 5); // Format: HH:MM
+      // Get current date and time
+      const now = new Date();
+      const date = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }); // HH:MM format in 12-hour format
+      const formattedDate = date.replace(/-/g, '/'); // Format: MM/DD/YYYY
 
-            // Create filename with date and time
-            const filename = `chat_history_${formattedDate}_${formattedTime}.pdf`;
+      // Create filename with date and time
+      const filename = `chat_history_${formattedDate}_${time}.pdf`;
 
-            // Save the PDF with the filename
-            doc.save(filename);  });
+      // Save the PDF with the filename
+      doc.save(filename);  
+  });
 </script>
+
 
 
 </body>
