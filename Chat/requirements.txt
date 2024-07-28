@@ -3,3 +3,4 @@ Flask-SocketIO==5.3.2
 python-socketio==5.7.2
 python-engineio==4.6.0
 cryptography==42.0.8
+simple-websocket==0.10.0 
